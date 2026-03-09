@@ -4,224 +4,268 @@
  */
 
 import { motion } from "motion/react";
-import { Mail, Link as LinkIcon, Phone, Cpu, Code, Brain, Layers, Database, Server, Cloud, Menu, ChevronDown, Briefcase, Rocket } from "lucide-react";
+import { Mail, Link as LinkIcon, Phone, Cpu, Code, Brain, Layers, Database, Server, Cloud, Menu, ChevronDown, Briefcase, Rocket, ArrowRight, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 
-const SectionHeader = ({ number, title }: { number: string; title: string }) => (
-  <div className="mb-12">
-    <h2 className="text-2xl md:text-3xl font-display font-bold uppercase mb-2 flex items-center gap-4">
-      <span className="text-primary">{number}.</span> {title}
-      <div className="h-px bg-primary/20 flex-grow"></div>
-    </h2>
+const SectionHeader = ({ title, subtitle }: { title: string; subtitle?: string }) => (
+  <div className="mb-16 text-center">
+    <motion.h2 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
+    >
+      {title}
+    </motion.h2>
+    {subtitle && (
+      <motion.p 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.1 }}
+        className="text-slate-500 text-lg max-w-2xl mx-auto"
+      >
+        {subtitle}
+      </motion.p>
+    )}
   </div>
 );
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [bootSequence, setBootSequence] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setBootSequence(true), 500);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden">
-      <div className="scanline-overlay" />
+    <div className="min-h-screen relative overflow-x-hidden selection:bg-primary/20">
+      {/* Background Glows */}
+      <div className="soft-glow top-[-10%] left-[-10%] bg-primary" />
+      <div className="soft-glow bottom-[-10%] right-[-10%] bg-secondary" />
       
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-40 border-b border-primary/10 backdrop-blur-md bg-black/50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="font-display font-bold text-xl tracking-tighter">
-            [<span className="text-primary">AP_PORTFOLIO</span>]
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl">
+        <div className="glass-card rounded-full px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-sm">
+              A
+            </div>
+            <span className="font-bold tracking-tight hidden sm:inline-block">Aashish Porwal</span>
           </div>
           
-          <div className="hidden md:flex space-x-8 text-[10px] font-semibold tracking-widest uppercase">
-            {["About", "Skills", "Experience", "Projects", "Contact"].map((item, i) => (
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+            {["About", "Skills", "Experience", "Projects"].map((item) => (
               <a 
                 key={item}
                 href={`#${item.toLowerCase()}`} 
-                className={`hover:text-primary transition-colors ${item === 'Contact' ? 'text-primary' : 'text-white/70'}`}
+                className="hover:text-primary transition-colors"
               >
-                0{i + 1}.{item}
+                {item}
               </a>
             ))}
           </div>
 
-          <button 
-            className="md:hidden text-primary"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <Menu size={24} />
-          </button>
+          <div className="flex items-center gap-4">
+            <a 
+              href="https://drive.google.com/file/d/1C5Q4wgSMwpzZtM9kcq2NXKxOaNXoQf8w/view?usp=sharing" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-all"
+            >
+              My Resume
+            </a>
+            <button 
+              className="md:hidden text-slate-900"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <Menu size={24} />
+            </button>
+          </div>
         </div>
       </nav>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center space-y-8 text-xl font-display">
-          {["About", "Skills", "Experience", "Projects", "Contact"].map((item, i) => (
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="fixed inset-0 z-[60] bg-white flex flex-col items-center justify-center space-y-8 text-2xl font-bold"
+        >
+          {["About", "Skills", "Experience", "Projects"].map((item) => (
             <a 
               key={item}
               href={`#${item.toLowerCase()}`} 
               onClick={() => setIsMenuOpen(false)}
-              className="text-primary tracking-widest"
+              className="hover:text-primary transition-colors"
             >
-              0{i + 1}.{item}
+              {item}
             </a>
           ))}
-          <button onClick={() => setIsMenuOpen(false)} className="text-white/50 text-sm uppercase tracking-widest mt-8">Close</button>
-        </div>
+          <button onClick={() => setIsMenuOpen(false)} className="text-slate-400 text-sm uppercase tracking-widest mt-8">Close</button>
+        </motion.div>
       )}
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 matrix-bg">
-        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-          <div 
-            className="absolute inset-0 border-[0.5px] border-primary/20" 
-            style={{ 
-              backgroundImage: 'linear-gradient(rgba(255,0,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,255,0.05) 1px, transparent 1px)', 
-              backgroundSize: '50px 50px' 
-            }} 
-          />
-        </div>
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-100 shadow-sm text-xs font-medium text-slate-600 mb-8"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          Hi, I'm Aashish
+        </motion.div>
 
-        <div className="relative z-10 w-full max-w-5xl">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: bootSequence ? 1 : 0, x: bootSequence ? 0 : -20 }}
-            className="mb-4"
-          >
-            <span className="text-terminal-green text-xs md:text-sm font-mono">&gt; SYSTEM BOOT SEQUENCE COMPLETE</span>
-          </motion.div>
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-center mb-8 leading-[0.9]"
+        >
+          AI <span className="text-gradient">Engineer</span>
+        </motion.h1>
 
-          <motion.h1 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="font-display text-5xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tighter leading-none flicker"
-          >
-            <span className="glitch-text text-white">Aashish Porwal</span>
-            <span className="inline-block w-6 h-10 md:w-10 md:h-16 bg-primary ml-4 cursor-blink align-middle" />
-          </motion.h1>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-slate-500 text-lg md:text-xl text-center max-w-2xl mb-12 leading-relaxed"
+        >
+          I craft intelligent digital systems that solve complex problems and automate workflows
+          —from LLM-powered apps to multi-agent architectures.
+        </motion.p>
 
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="space-y-2 mb-12 text-sm md:text-lg font-medium"
-          >
-            <div className="flex items-center">
-              <span className="text-primary mr-3 text-lg md:text-xl">//</span>
-              <span className="uppercase tracking-widest text-white/80">AI Engineer</span>
-            </div>
-            <div className="flex items-center">
-              <span className="text-primary mr-3 text-lg md:text-xl">//</span>
-              <span className="uppercase tracking-widest text-white/80">Specializing in LLM-powered applications</span>
-            </div>
-            <div className="flex items-center">
-              <span className="text-primary mr-3 text-lg md:text-xl">//</span>
-              <span className="uppercase tracking-widest text-white/80">Location: Indore, India</span>
-            </div>
-          </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="flex flex-col sm:flex-row gap-4 mb-20"
+        >
+          <a href="#projects" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-primary text-white font-bold hover:shadow-lg hover:shadow-primary/30 transition-all group">
+            View My Work <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
+          </a>
+        </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            <a href="#projects" className="group relative px-8 py-4 bg-primary text-black font-bold uppercase tracking-widest hover:bg-white transition-all text-center text-sm">
-              VIEW_PROJECTS
-              <div className="absolute -inset-1 border border-primary opacity-50 group-hover:opacity-100 transition-opacity" />
-            </a>
-            <a 
-              href="https://drive.google.com/file/d/1C5Q4wgSMwpzZtM9kcq2NXKxOaNXoQf8w/view?usp=sharing" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group relative px-8 py-4 border border-primary/50 text-primary font-bold uppercase tracking-widest hover:bg-primary hover:text-black transition-all text-center text-sm"
-            >
-              DOWNLOAD_RESUME.PDF
-            </a>
-          </motion.div>
-        </div>
-
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
-          <span className="text-[8px] tracking-[0.3em] uppercase">[ SCROLL_TO_INIT ]</span>
-          <ChevronDown className="animate-bounce text-primary" size={20} />
-        </div>
-
-        <div className="hidden lg:block absolute bottom-10 right-10 p-4 terminal-border bg-black/40 backdrop-blur-sm text-[10px] leading-relaxed">
-          <div className="flex justify-between gap-8 mb-2">
-            <span>STATUS: ONLINE</span>
-            <span className="text-primary">CORE_V1.0</span>
+        {/* Stats */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-24 text-center"
+        >
+          <div>
+            <div className="text-4xl font-bold text-primary mb-1">3</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Featured Projects</div>
           </div>
-          <div className="flex gap-1">
-            <div className="w-1.5 h-3 bg-primary" />
-            <div className="w-1.5 h-3 bg-primary" />
-            <div className="w-1.5 h-3 bg-primary" />
-            <div className="w-1.5 h-3 bg-primary/30" />
-            <div className="w-1.5 h-3 bg-primary/30" />
+          <div className="border-x border-slate-100 px-12 sm:px-24">
+            <div className="text-4xl font-bold text-secondary mb-1">2+</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Years Experience</div>
           </div>
+          <div>
+            <div className="text-4xl font-bold text-accent mb-1">∞</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Ideas to Explore</div>
+          </div>
+        </motion.div>
+
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+          <span className="text-[10px] tracking-widest uppercase font-bold">Scroll to explore</span>
+          <ChevronDown className="animate-bounce" size={20} />
         </div>
       </section>
 
-      {/* Summary Section */}
-      <section className="py-24 px-6 max-w-5xl mx-auto" id="about">
-        <SectionHeader number="01" title="Summary" />
-        <div className="grid md:grid-cols-3 gap-12 items-start">
-          <div className="md:col-span-2 text-base md:text-lg leading-relaxed text-white/70">
-            <p className="mb-6">
-              AI Engineer with experience designing and deploying <span className="text-primary">LLM-powered applications</span>, document intelligence pipelines, and multi-agent systems.
-            </p>
-            <p>
-              Skilled in fine-tuning models (<span className="text-primary">LoRA/QLoRA</span>), building RAG architectures, and implementing LangGraph-based workflows to automate complex decision processes and reduce manual effort.
-            </p>
-          </div>
-          
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="p-6 terminal-border bg-primary/5 relative"
-          >
-            <div className="absolute -top-3 -right-3 text-primary bg-black p-1">
-              <Cpu size={24} />
-            </div>
-            <h3 className="text-xs font-bold uppercase mb-4 text-primary tracking-widest">Focus Areas</h3>
-            <ul className="text-[10px] space-y-3 opacity-80 font-mono">
-              <li className="flex items-center gap-2"><span className="w-1 h-1 bg-primary" /> GENERATIVE AI / LLMs</li>
-              <li className="flex items-center gap-2"><span className="w-1 h-1 bg-primary" /> MULTI-AGENT SYSTEMS</li>
-              <li className="flex items-center gap-2"><span className="w-1 h-1 bg-primary" /> RAG ARCHITECTURES</li>
-              <li className="flex items-center gap-2"><span className="w-1 h-1 bg-primary" /> AI DEPLOYMENT</li>
-            </ul>
-          </motion.div>
+      {/* Projects Section */}
+      <section className="py-32 px-6 max-w-7xl mx-auto" id="projects">
+        <SectionHeader 
+          title="Selected Projects" 
+          subtitle="A showcase of AI-driven solutions and intelligent systems I've built." 
+        />
+        
+        <div className="space-y-12">
+          {[
+            {
+              id: "01",
+              title: "DDC — 360F",
+              subtitle: "AI Recommendation System",
+              description: "Optimized OCR + VLM pipeline, reducing 20-page PDF processing time from 280s to 45–60s. Migrated system to LangGraph with a master agent orchestrating Fact Find, Gap Analysis, and Recommendation phases.",
+              tags: ["LangGraph", "OCR", "VLM", "MCP"],
+              image: "https://picsum.photos/seed/ai-rec/1200/800"
+            },
+            {
+              id: "02",
+              title: "ProtoBots AI",
+              subtitle: "Document Intelligence Platform",
+              description: "Integrated multiple LLM providers for document-centric conversational AI systems. Built an LLM benchmarking platform to evaluate accuracy, latency, and cost efficiency.",
+              tags: ["LLMs", "Benchmarking", "Vector Search", "Embeddings"],
+              image: "https://picsum.photos/seed/protobots/1200/800"
+            }
+          ].map((project, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="glass-card rounded-[40px] overflow-hidden group"
+            >
+              <div className="grid lg:grid-cols-2 items-center">
+                <div className="p-8 md:p-16">
+                  <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 font-bold mb-8">
+                    {project.id}
+                  </div>
+                  <h3 className="text-4xl font-bold mb-2">{project.title}</h3>
+                  <p className="text-primary font-bold mb-6">{project.subtitle}</p>
+                  <p className="text-slate-500 text-lg mb-8 leading-relaxed">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-10">
+                    {project.tags.map(tag => (
+                      <span key={tag} className="px-4 py-1.5 rounded-full bg-slate-50 border border-slate-100 text-xs font-bold text-slate-500">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <button className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-white font-bold hover:shadow-lg hover:shadow-primary/30 transition-all group/btn">
+                    View Project <ArrowRight className="group-hover/btn:translate-x-1 transition-transform" size={18} />
+                  </button>
+                </div>
+                <div className="relative h-[400px] lg:h-full overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* Skills Section */}
-      <section className="py-24 px-6 bg-primary/5" id="skills">
+      <section className="py-32 px-6 bg-white" id="skills">
         <div className="max-w-5xl mx-auto">
-          <SectionHeader number="02" title="Technical_Skills" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <SectionHeader title="Technical Skills" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {[
-              { icon: <Code size={18} />, title: "LANGUAGES", content: "Python, SQL, JavaScript" },
-              { icon: <Brain size={18} />, title: "AI / ML", content: "LLMs, Model Training, LoRA, QLoRA, RAG, Embeddings, OCR (Tesseract), VLMs, Prompt Engineering, AI Deployment" },
-              { icon: <Layers size={18} />, title: "FRAMEWORKS", content: "LangChain, LangGraph, MCP, OpenAI, Anthropic, DeepSeek" },
-              { icon: <Database size={18} />, title: "DATABASES", content: "Qdrant, ChromaDB, FAISS, MongoDB, MySQL" },
-              { icon: <Server size={18} />, title: "BACKEND", content: "FastAPI, Django, Flask, DRF, REST APIs, JWT" },
-              { icon: <Cloud size={18} />, title: "CLOUD & TOOLS", content: "AWS (EC2, S3), Docker, Redis, Git, GitHub, GitLab, Jira, Swagger" }
+              { icon: <Code className="text-primary" />, title: "Languages", content: "Python, SQL, JavaScript" },
+              { icon: <Brain className="text-secondary" />, title: "AI / ML", content: "LLMs, Model Training, LoRA, QLoRA, RAG, Embeddings, OCR (Tesseract), VLMs, Prompt Engineering, AI Deployment" },
+              { icon: <Layers className="text-accent" />, title: "Frameworks", content: "LangChain, LangGraph, MCP, OpenAI, Anthropic, DeepSeek" },
+              { icon: <Database className="text-primary" />, title: "Databases", content: "Qdrant, ChromaDB, FAISS, MongoDB, MySQL" },
+              { icon: <Server className="text-secondary" />, title: "Backend", content: "FastAPI, Django, Flask, DRF, REST APIs, JWT" },
+              { icon: <Cloud className="text-accent" />, title: "Cloud & Tools", content: "AWS (EC2, S3), Docker, Redis, Git, GitHub, GitLab, Jira, Swagger" }
             ].map((skill, i) => (
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="p-6 terminal-border hover:bg-primary/10 transition-colors group"
+                className="flex gap-6"
               >
-                <h3 className="text-primary font-bold mb-4 flex items-center gap-2 text-sm">
-                  {skill.icon} {skill.title}
-                </h3>
-                <p className="text-xs leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity">{skill.content}</p>
+                <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center shrink-0">
+                  {skill.icon}
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">{skill.title}</h3>
+                  <p className="text-slate-500 leading-relaxed">{skill.content}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -229,9 +273,9 @@ export default function App() {
       </section>
 
       {/* Experience Section */}
-      <section className="py-24 px-6 max-w-5xl mx-auto" id="experience">
-        <SectionHeader number="03" title="Experience" />
-        <div className="space-y-12">
+      <section className="py-32 px-6 max-w-5xl mx-auto" id="experience">
+        <SectionHeader title="Work Experience" />
+        <div className="space-y-16">
           {[
             {
               role: "Software Developer (AI/ML)",
@@ -240,9 +284,7 @@ export default function App() {
               points: [
                 "Engineered scalable AI pipelines integrating OCR, embeddings, and vector search for unstructured data.",
                 "Architected multi-agent workflows using LangGraph for adaptive task routing and complex reasoning.",
-                "Deployed RAG systems using Qdrant and ChromaDB to deliver context-aware responses.",
-                "Fine-tuned domain-specific models using LoRA and QLoRA techniques.",
-                "Built MCP servers enabling seamless integration between legacy APIs and AI-driven applications."
+                "Deployed RAG systems using Qdrant and ChromaDB to deliver context-aware responses."
               ]
             },
             {
@@ -250,20 +292,9 @@ export default function App() {
               company: "Growing IT Solutions",
               period: "Feb 2024 – Present",
               points: [
-                "Built AI-powered chat and report bots using OpenAI and Anthropic APIs, automating responses for document-based queries and reducing manual support effort by 60%.",
-                "Designed scalable backend services using Django and FastAPI, supporting concurrent users with reliable role-based access control.",
-                "Containerized applications with Docker, reducing deployment inconsistencies across environments.",
-                "Automated WhatsApp workflows handling 60% of customer interactions, significantly improving response time."
-              ]
-            },
-            {
-              role: "Python Developer Intern",
-              company: "TalkWisely Platforms",
-              period: "Aug 2023 – Dec 2023",
-              points: [
-                "Engineered REST APIs using FastAPI and integrated telecommunication workflows with Asterisk.",
-                "Applied OCR techniques using Tesseract for automated document processing.",
-                "Managed structured and unstructured data using MySQL and MongoDB databases."
+                "Built AI-powered chat and report bots using OpenAI and Anthropic APIs.",
+                "Designed scalable backend services using Django and FastAPI.",
+                "Automated WhatsApp workflows handling 60% of customer interactions."
               ]
             }
           ].map((exp, i) => (
@@ -272,21 +303,21 @@ export default function App() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="relative pl-8 border-l border-primary/20"
+              className="group"
             >
-              <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 bg-primary rounded-full shadow-[0_0_10px_#FF00FF]" />
-              <div className="mb-4">
-                <h3 className="text-xl font-display font-bold text-white">{exp.role}</h3>
-                <div className="flex justify-between items-center text-xs text-primary font-mono mt-1">
-                  <span>{exp.company}</span>
-                  <span className="opacity-60">{exp.period}</span>
+              <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{exp.role}</h3>
+                  <p className="text-slate-400 font-medium">{exp.company}</p>
+                </div>
+                <div className="text-slate-400 font-bold text-sm mt-2 md:mt-0">
+                  {exp.period}
                 </div>
               </div>
-              <ul className="space-y-3">
+              <ul className="space-y-4">
                 {exp.points.map((point, j) => (
-                  <li key={j} className="text-sm text-white/60 flex gap-3">
-                    <span className="text-primary mt-1.5"><Briefcase size={12} /></span>
+                  <li key={j} className="text-slate-500 flex gap-4 leading-relaxed">
+                    <span className="text-primary mt-1.5 shrink-0"><div className="w-1.5 h-1.5 rounded-full bg-current" /></span>
                     <span>{point}</span>
                   </li>
                 ))}
@@ -296,84 +327,28 @@ export default function App() {
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section className="py-24 px-6 bg-primary/5" id="projects">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader number="04" title="Projects" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              {
-                title: "DDC — 360F (AI Recommendation System)",
-                points: [
-                  "Optimized OCR + VLM pipeline, reducing 20-page PDF processing time from 280s to 45–60s.",
-                  "Constructed a robust extraction workflow for scanned and unstructured documents.",
-                  "Migrated system to LangGraph with a master agent orchestrating Fact Find, Gap Analysis, and Recommendation phases.",
-                  "Established MCP server exposing legacy APIs for real-time system integration."
-                ]
-              },
-              {
-                title: "ProtoBots AI",
-                points: [
-                  "Integrated multiple LLM providers for document-centric conversational AI systems.",
-                  "Built an LLM benchmarking platform to evaluate accuracy, latency, and cost efficiency.",
-                  "Leveraged embeddings and vector search to enhance information retrieval from large documents."
-                ]
-              }
-            ].map((project, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="p-8 terminal-border bg-black/40 hover:bg-primary/5 transition-all group"
-              >
-                <div className="flex items-center gap-3 mb-6">
-                  <Rocket size={20} className="text-primary" />
-                  <h3 className="text-lg font-display font-bold text-white group-hover:text-primary transition-colors">{project.title}</h3>
-                </div>
-                <ul className="space-y-4">
-                  {project.points.map((point, j) => (
-                    <li key={j} className="text-sm text-white/50 flex gap-3 leading-relaxed">
-                      <span className="text-primary/40 mt-1.5">▹</span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer / Contact */}
-      <footer className="py-24 px-6 border-t border-primary/10 relative overflow-hidden" id="contact">
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <motion.h2 
-            whileInView={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="font-display text-4xl md:text-6xl font-black mb-12 tracking-tighter text-white"
-          >
-            CONNECT_SYSTEM
-          </motion.h2>
+      {/* Footer */}
+      <footer className="py-32 px-6 border-t border-slate-100">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter mb-12">
+            Let's <span className="text-gradient">Connect</span>
+          </h2>
           
-          <div className="flex flex-wrap justify-center gap-8 mb-16">
-            <a href="mailto:porwalaashish9@gmail.com" className="flex items-center gap-2 hover:text-primary transition-colors text-sm">
-              <Mail size={18} className="text-primary" /> porwalaashish9@gmail.com
+          <div className="flex flex-wrap justify-center gap-8 mb-20">
+            <a href="mailto:porwalaashish9@gmail.com" className="flex items-center gap-3 px-6 py-3 rounded-full bg-slate-50 hover:bg-primary hover:text-white transition-all font-bold text-sm">
+              <Mail size={18} /> porwalaashish9@gmail.com
             </a>
-            <a href="#" className="flex items-center gap-2 hover:text-primary transition-colors text-sm">
-              <LinkIcon size={18} className="text-primary" /> LinkedIn
+            <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full bg-slate-50 hover:bg-primary hover:text-white transition-all font-bold text-sm">
+              <LinkIcon size={18} /> LinkedIn
             </a>
-            <a href="tel:+917389304078" className="flex items-center gap-2 hover:text-primary transition-colors text-sm">
-              <Phone size={18} className="text-primary" /> +91 7389304078
+            <a href="tel:+917389304078" className="flex items-center gap-3 px-6 py-3 rounded-full bg-slate-50 hover:bg-primary hover:text-white transition-all font-bold text-sm">
+              <Phone size={18} /> +91 7389304078
             </a>
           </div>
           
-          <div className="pt-8 border-t border-primary/5">
-            <p className="text-[8px] tracking-[0.4em] opacity-40 uppercase">
-              © 2025 AASHISH PORWAL // ALL SYSTEMS OPERATIONAL
-            </p>
-          </div>
+          <p className="text-[10px] tracking-[0.4em] text-slate-300 uppercase font-bold">
+            © 2025 AASHISH PORWAL // ALL SYSTEMS OPERATIONAL
+          </p>
         </div>
       </footer>
     </div>
