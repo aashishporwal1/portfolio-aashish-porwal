@@ -80,7 +80,7 @@ export default function App() {
           <div 
             className="absolute inset-0 border-[0.5px] border-primary/20" 
             style={{ 
-              backgroundImage: 'linear-gradient(rgba(0,255,209,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,209,0.05) 1px, transparent 1px)', 
+              backgroundImage: 'linear-gradient(rgba(255,0,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,255,0.05) 1px, transparent 1px)', 
               backgroundSize: '50px 50px' 
             }} 
           />
@@ -101,8 +101,7 @@ export default function App() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="font-display text-5xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tighter leading-none flicker"
           >
-            <span className="glitch-text text-white">AASHISH</span><br />
-            <span className="glitch-text text-white">PORWAL</span>
+            <span className="glitch-text text-white">Aashish Porwal</span>
             <span className="inline-block w-6 h-10 md:w-10 md:h-16 bg-primary ml-4 cursor-blink align-middle" />
           </motion.h1>
 
@@ -136,7 +135,12 @@ export default function App() {
               VIEW_PROJECTS
               <div className="absolute -inset-1 border border-primary opacity-50 group-hover:opacity-100 transition-opacity" />
             </a>
-            <a href="#" className="group relative px-8 py-4 border border-primary/50 text-primary font-bold uppercase tracking-widest hover:bg-primary hover:text-black transition-all text-center text-sm">
+            <a 
+              href="https://drive.google.com/file/d/1C5Q4wgSMwpzZtM9kcq2NXKxOaNXoQf8w/view?usp=sharing" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group relative px-8 py-4 border border-primary/50 text-primary font-bold uppercase tracking-widest hover:bg-primary hover:text-black transition-all text-center text-sm"
+            >
               DOWNLOAD_RESUME.PDF
             </a>
           </motion.div>
@@ -271,7 +275,7 @@ export default function App() {
               transition={{ delay: i * 0.1 }}
               className="relative pl-8 border-l border-primary/20"
             >
-              <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 bg-primary rounded-full shadow-[0_0_10px_#00FFD1]" />
+              <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 bg-primary rounded-full shadow-[0_0_10px_#FF00FF]" />
               <div className="mb-4">
                 <h3 className="text-xl font-display font-bold text-white">{exp.role}</h3>
                 <div className="flex justify-between items-center text-xs text-primary font-mono mt-1">
